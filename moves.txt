@@ -1,0 +1,22 @@
+U = Top
+L = Left side
+F = Front
+R = Right Side
+B = Back
+D = Down (Bottom)
+
+M = Mid slice X-Axis
+E = Mid slice Z-Axis
+S = Mid slice Y-Axis
+
+X = Whole cube rotate X axis
+Y = Whole cube rotate Z axis
+Z = Whole cube rotate Y axis
+
+face_0 = ['yellow', 'orange', 'white', 'green', 'orange', 'orange', 'green', 'green', 'orange']
+face_1 = ['yellow', 'red', 'yellow', 'yellow', 'white', 'green', 'white', 'blue', 'red']
+face_2 = ['red', 'red', 'blue', 'orange', 'red', 'blue', 'orange', 'white', 'blue']
+face_3 = ['red', 'white', 'orange', 'blue', 'yellow', 'blue', 'green', 'green', 'yellow']
+face_4 = ['red', 'red', 'green', 'white', 'green', 'yellow', 'blue', 'yellow', 'green']
+face_5 = ['white', 'red', 'blue', 'white', 'blue', 'orange', 'white', 'yellow', 'orange']
+face_input = [face_0, face_1, face_2, face_3, face_4, face_5]
