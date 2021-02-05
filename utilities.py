@@ -1,7 +1,6 @@
 #/bin/python
 from graphics import *
 from constants import *
-# from rubiks_classes import *
 
 def is_color(color):
     """
@@ -51,112 +50,6 @@ def init_game(game):
                     else:
                         okay = True
 
-
-class SetupWindow(object):
-    """
-    Graphics window for displaying one side of Rubik's cube during setup
-    """
-
-    def __init__(self, label='Default'):
-        self.win_locs = [[(1, 1), (4, 4)],
-                         [(4, 1), (7, 4)],
-                         [(7, 1), (10, 4)],
-                         [(1, 4), (4, 7)],
-                         [(4, 4), (7, 7)],
-                         [(7, 4), (10, 7)],
-                         [(1, 7), (4, 10)],
-                         [(4, 7), (7, 10)],
-                         [(7, 7), (10, 10)]
-                         ]
-        self.label = label
-        self.window = GraphWin(self.label, width=300, height=300)
-        self.window.setCoords(0, 0, 11, 11)
-
-    def close(self):
-        self.window.close()
-
-    def paint_square(self, x, y, color):
-        winnum = 3 * y + x
-        windx = self.win_locs[winnum]
-        square = Rectangle(Point(windx[0][0], windx[0][1]), Point(windx[1][0], windx[1][1]))
-        square.setFill(color)
-        square.draw(self.window)
-
-
-# def init_game_solved(game):
-#     """
-#     Set up a Rubiks Cube game by assigning the locations to each cube and the colors to each cube facet,
-#      for a fully solved game (all colors the same on each face of the cube)
-#     Expects as input a game of class Game.  No return, just modifies the game.
-#     :param game:
-#     :return: none
-#     """
-#     print('Initiating a Cube. ')
-#
-#     faces = ('L', 'T', 'R', 'B', 'F', 'K')
-#     colors = ['red', 'white', 'orange', 'yellow', 'blue', 'green']
-#     print('Assumes color sequence L,T,R,B,F,B is ')
-#     for color in colors:
-#         print(color + ', ')
-#     print('\n')
-#     for cube in game.cubes:
-#         if cube.loc[0] == 0: # X-axis
-#             cube.orient[0] = colors[0]
-#         elif cube.loc[0] == 2:
-#             cube.orient[2] = colors[2]
-#         if cube.loc[1] == 0: # Y-axis
-#             cube.orient[4] = colors[4]
-#         elif cube.loc[1] == 2:
-#             cube.orient[5] = colors[5]
-#         if cube.loc[2] == 0: # Z-axis
-#             cube.orient[3] = colors[3]
-#         elif cube.loc[2] == 2:
-#             cube.orient[1] = colors[1]
-
-# def draw_game_side(game, window, face, win_locs):
-#     """
-#     Draw
-#     :param game:
-#     :param window:  The graphics window to be used for display
-#     :param face:  The face of the game to be displayed (L, U, R, D, F, B)
-#     :param win_locs: list of tuples of tuples specifying lower left and upper right corners of square
-#      for each of 9 squeares of the side of the cube e.g. [((1,1),(4,4)), ((4,1), (8,4)), ... ]
-#     :return:
-#     """
-#     (axis, position) = axis_from_face[face]
-#     cubes_to_display = []
-#     for cube in game.cubes:
-#         if cube.loc[axis] == position:
-#             cubes_to_display.append(cube)
-#     facet = face
-#     for cube in cubes_to_display:
-#         if axis == X:
-#             window_loc = [cube.loc[1],cube.loc[2]]
-#         elif axis == Y:
-#             window_loc = [cube.loc[0],cube.loc[2]]
-#         else:
-#             window_loc = [cube.loc[0],cube.loc[1]]
-#
-#         if facet == 0 or facet == 5:
-#             window_loc[0] = ((window_loc[0] * 2 + 2) % 3)
-#         elif facet == 3:
-#             window_loc[1] = ((window_loc[1] * 2 + 2) % 3)
-#
-#         # Choose a window for this cube
-#         win_index = 3 * window_loc[1] + window_loc[0]
-#         win_locs = win_locs[win_index]
-#
-#         square = Rectangle(Point(win_locs[0][0], win_locs[0][1]), Point(win_locs[1][0], win_locs[1][1]))
-#         square.setFill(cube.orient[facet])
-#         square.draw(window)
-
-
-
-'''
-F R U L B D
-
-Standard Orientation
-'''
 
 def convert(standard):
     if standard == 'U' or standard == "U'":
@@ -247,10 +140,12 @@ def convert(standard):
         raise ValueError('Not standard notation or not implemented')
     return(axis, position, direction)
 
+
 def command_set(game, commands):
     for command in commands:
         (axis, position, direction) = convert(command)
         game.rotate(axis, position, direction)
+
 
 def command_string_to_commands(command_string):
     command_list = []
@@ -289,6 +184,7 @@ def find_cubes2(cube_set, cube_type, color_set, cnt=1):
     if cnt != len(cube_set_return):
         raise ValueError('Cube set not equal to requested count')
     return cube_set_return
+
 
 def find_cubes(cube_set, cube_type='*', location=[9, 9, 9], color_set=['*'], faces=('*', '*'), cnt=None):
     """
@@ -329,6 +225,7 @@ def find_cubes(cube_set, cube_type='*', location=[9, 9, 9], color_set=['*'], fac
         raise ValueError('Cube set not equal to requested count')
     return cube_set_return
 
+
 def cube_loc_match(cube, location):
     """
     Determine if cube matches location.  Location is array of values [0,1,2] representing [x, y, z].
@@ -342,6 +239,7 @@ def cube_loc_match(cube, location):
             if cube.loc[2] == location[2] or location[2] == 9:
                 return True
     return False
+
 
 def find_rotation(cube, dest_loc, use_axis=False):
     """
@@ -385,6 +283,7 @@ def find_rotation(cube, dest_loc, use_axis=False):
         qty = 2
         direction = 'CL'
     return (qty, axis, direction)
+
 
 def find_rotation_by_face(cur_facet, dest_facet, axis):
     """
@@ -599,6 +498,7 @@ def loc_3d_to_2d(face, x, y, z):
     else:
         raise ValueError('Band value for face')
     return(x, y)
+
 
 def find_facets(loc):
     facets = []

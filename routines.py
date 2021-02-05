@@ -75,10 +75,6 @@ def init_game_smart(game):
                     for x in range(3):
                         if painted[3 * y + x]:
                             continue
-                        # elif face_input in locals():
-                        #     color = face_input[face][y*3+x]
-                        #     window.paint_square(x, y, color)
-                        #     colors[3 * y + x] = color
                         else:
                             okay = False
                             while not okay:
@@ -94,8 +90,6 @@ def init_game_smart(game):
                         # find 3D location of this cube
                         # cube_loc = loc_2d_to_3d(face, x, y)
                 ans = input('Is face painted correctly? ').lower()
-                # todo improve behavior when you get painting wrong and need to redo.  e.g.
-                #  unpaint the cube?  allow choice of which cube to update?
                 if ans in ['y', 'yes', 'yep', 'yup']:
                     painted_correctly = True
         window.close()
@@ -710,8 +704,6 @@ def align_bottom_corners(game):
         if len(correct) == 1:
             # rotate whole cube so correct cube is in upper left
             # flip bottom up
-            # game.rotate(X, [0, 1, 2], 'CL')
-            # game.rotate(X, [0, 1, 2], 'CL')
             cube = correct[0]
             (qty, axis, rotation) = find_rotation(cube, (2,0,0), Z)
             for x in range(qty):
@@ -746,9 +738,6 @@ def flip_bottom_corners(game):
             for x in range(6):
                 if cube.orient[x] and cube.orient[x] != face_colors[x] and cube not in cubes_not_oriented:
                     cubes_not_oriented.append(cube)
-        # if cube is incorrect orientation, position at (2,0,0)
-        # if len(cubes_not_oriented) not in [2,4]:
-        #     raise ValueError('Incorrect number of flipped cubes?')
         for cube in cubes_not_oriented:
             # move to (2,0,0)
             (qty, axis, rotation) = find_rotation(cube, (2,0,0), Z)
@@ -759,9 +748,5 @@ def flip_bottom_corners(game):
             command_set(game, list)
             for x in range(qty):
                 game.rotate(axis, 0, opp_dir(rotation))
-            asdf = 1
-            # game.orient()
         # execute 1/3 of set, check cube for orientation
         # if OK, move to another cube, if not execute again
-        asdf = 1
-    asdf = 1

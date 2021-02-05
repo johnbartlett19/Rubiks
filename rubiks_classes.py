@@ -31,7 +31,6 @@ class Game(object):
                     self.cubes.append(cube)
         self.init_solved()
 
-
     def init_solved(self, top_color='white', left_color='orange'):
         """
         Set up this Rubiks Cube game by assigning the locations to each cube and the colors to each cube facet,
@@ -273,118 +272,6 @@ class Game(object):
         for x in range(qty):
             self.rotate(axis, [0, 1, 2], direction)
 
-    # def solve_white_cross(self):
-    #     # find a white mid not in correct place
-    #     self.orient()
-    #     # cube_set = find_cubes(self.cubes, cube_type='SideCube', color_set=['white'], cnt=4)
-    #     one_top_spin = False
-    #     while not self.solved_white_cross():
-    #         cubes_on_top_white_up = find_cubes(self.cubes, cube_type=SideCube, location=[9,9,2], faces=[('white',[1])])
-    #         cubes_on_top_white_side = find_cubes(self.cubes, cube_type=SideCube, location=[9, 9, 2], faces=[('white', [0,2,4,5])])
-    #         cubes_on_bottom_white_down = find_cubes(self.cubes, cube_type=SideCube, location=[9,9,0], faces=[('white',[3])])
-    #         cubes_on_bottom_white_side = find_cubes(self.cubes, cube_type=SideCube, location=[9,9,0], faces=[('white', [0,2,4,5])])
-    #         cubes_on_vert_edge = find_cubes(self.cubes, cube_type=SideCube, faces=[('white', [0,2,4,5])])
-    #
-    #         if len(cubes_on_top_white_up) > 0 and not one_top_spin:
-    #             print('Top Spin Once')
-    #             cube = cubes_on_top_white_up[0]
-    #             (qty, axis, direction) = find_rotation(cube, cube.home_loc, Z)
-    #             position = cube.loc[axis]
-    #             for x in range(qty):
-    #                 self.rotate(axis, position, direction)
-    #             # one_top_spin = True
-    #         elif len(cubes_on_bottom_white_down) > 0:
-    #             # if in bottom row and white is facing down
-    #             cube = cubes_on_bottom_white_down[0]
-    #             print('Cube on Bottom White Down: ' + str(cube) + ': ' + str(cube.loc))
-    #             (qty, axis, direction) = find_rotation(cube, cube.home_loc, Z)
-    #             position = 0
-    #             # rotate bottom (D) until on correct side
-    #             for x in range(qty):
-    #                 self.rotate(axis, position, direction)
-    #             # what is face of second color?
-    #             for x in range(6):
-    #                 if cube.orient[x] != 'white' and cube.orient[x]:
-    #                     second_color_facet = x
-    #             (axis, qty) = axis_from_face[second_color_facet]
-    #             (qty, axis2, direction) = facet_rotation[(D, U)]
-    #             position = cube.loc[axis]
-    #             for x in range(qty):
-    #                 self.rotate(axis, position, direction)
-    #
-    #             if cube.loc[0] == 1:
-    #                 axis = Y
-    #             elif cube.loc[1] == 1:
-    #                 axis = X
-    #             else:
-    #                 raise ValueError('Cube not in expected location')
-    #             (qty, axis, direction) = find_rotation(cube, cube.home_loc, axis)
-    #             position = 0
-    #             for x in range(qty):
-    #                 self.rotate(axis, position, direction)
-    #
-    #         elif len(cubes_on_top_white_side) > 0:
-    #             cube = cubes_on_top_white_side[0]
-    #             print('Cube on top white side: ' + str(cube) + ": " + str(cube.loc))
-    #             # Push cube to bottom so white is on the bottom
-    #             white_facet = cube.facet('white')
-    #             dest_facet = 3 # bottom
-    #             (qty, axis, direction) = facet_rotation[(white_facet, dest_facet)]
-    #             if qty > 1:
-    #                 raise ValueError()
-    #             position = 1
-    #             self.rotate(axis, [position], direction)  # rotate side_cube to bottom
-    #             self.rotate(2, 0, 'CL')
-    #             self.rotate(axis, [position], opp_dir(direction))
-    #             asdf = 1
-    #
-    #         elif len(cubes_on_bottom_white_side) > 0:
-    #             cube = cubes_on_bottom_white_side[0]
-    #             print('Cube on bottom white side: ' + str(cube) + ": " + str(cube.loc))
-    #             print ('Not yet implemented')
-    #             # Move face be under destination location, still with face out
-    #             white_facet = cube.facet('white')
-    #             other_color = cube.orient[3]
-    #             # find facet of other_color middle cube, so we know dest
-    #             for mid_cube in self.cubes:
-    #                 if 'Mid' in str(mid_cube) and other_color in mid_cube.orient:
-    #                     dest_facet = mid_cube.facet(other_color)
-    #             (qty, axis, direction) = facet_rotation[(white_facet, dest_facet)]
-    #             if qty > 1:
-    #                 raise ValueError()
-    #             position = cube.loc[axis]
-    #             self.rotate(axis, [position], direction)  # rotate side_cube to bottom
-    #             # now rotate middle down, rotate bottom once, rotate middle back up
-    #             # destination facet to bottom (3)
-    #             (qty, axis, direction) = facet_rotation[(dest_facet, 3)]
-    #             if qty > 1:
-    #                 raise ValueError()
-    #             position = 1
-    #             self.rotate(axis, position, direction)
-    #             self.rotate(2, 0, 'CL')
-    #             self.rotate(axis, position, opp_dir(direction))
-    #         elif len(cubes_on_vert_edge) > 0:
-    #             cube = cubes_on_vert_edge[0]
-    #             print('Cube on vertical edge, move to bottom: ' + str(cube) + ": " + str(cube.loc))
-    #             # rotate to bottom.  find correct axis and destination loc
-    #             # find white face direction
-    #             dest_loc=[9,9,0]
-    #             white_facet = cube.facet('white')
-    #             dest_facet = 3
-    #             (qty, axis, direction) = facet_rotation[(white_facet, dest_facet)]
-    #             if qty > 1:
-    #                 raise ValueError()
-    #             position = cube.loc[axis]
-    #             self.rotate(axis, position, direction)
-    #             self.rotate(2, 0, 'CL')
-    #             self.rotate(axis, position, opp_dir(direction))
-    #         else:
-    #             raise ValueError("Can't find move to make in solving white cross")
-    #
-    #         one_top_spin = True
-    #     if self.solved_white_cross():
-    #         return()
-    #     asdf = 1
 
     def draw_game_side(self, window, face, win_locs):
         """
@@ -454,7 +341,6 @@ class Game(object):
                 if cube.orient[x] and cube.orient[x] != face_colors[x]:
                     return False
         return True
-
 
 
 class Cube(object):
@@ -582,7 +468,6 @@ class CornerCube(Cube):
         return facets
 
 
-
 class SideCube(Cube):
     '''
     Of type Cube, represents a side (on edge) cube (12 in game), each has 2 colored sides
@@ -639,13 +524,7 @@ class PossibleCube(object):
                 rem_cubes.append(pos_cube)
         for cube in rem_cubes:
             self.pos_cubes.remove(cube)
-        # if len(self.pos_cubes) == 1:
-        #     self.purge()
-            # self.pos_cubes[0].assigned = True
-            # self.pos_cubes[0].loc = self.location
-            # self.pos_cubes[0].set_facet(self.colors)
-            # print('Cube ' + str(self.pos_cubes[0]) + ' assigned to location ' + str(self.location))
-        # self.purge(facet)
+
 
     def purge(self):
         """
@@ -698,3 +577,34 @@ class PossibleCube(object):
         else:
             self.pos_cubes = new_pos_cubes
         return(changed)
+
+
+class SetupWindow(object):
+    """
+    Graphics window for displaying one side of Rubik's cube during setup
+    """
+
+    def __init__(self, label='Default'):
+        self.win_locs = [[(1, 1), (4, 4)],
+                         [(4, 1), (7, 4)],
+                         [(7, 1), (10, 4)],
+                         [(1, 4), (4, 7)],
+                         [(4, 4), (7, 7)],
+                         [(7, 4), (10, 7)],
+                         [(1, 7), (4, 10)],
+                         [(4, 7), (7, 10)],
+                         [(7, 7), (10, 10)]
+                         ]
+        self.label = label
+        self.window = GraphWin(self.label, width=300, height=300)
+        self.window.setCoords(0, 0, 11, 11)
+
+    def close(self):
+        self.window.close()
+
+    def paint_square(self, x, y, color):
+        winnum = 3 * y + x
+        windx = self.win_locs[winnum]
+        square = Rectangle(Point(windx[0][0], windx[0][1]), Point(windx[1][0], windx[1][1]))
+        square.setFill(color)
+        square.draw(self.window)
